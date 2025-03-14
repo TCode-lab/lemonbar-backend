@@ -99,6 +99,9 @@ void ModulesLoader::Load(
                 case Modules::Type::Script:
                     loadedModules.push_back(loader::load<Modules::Script>(module, interval, position));
                     break;
+                case Modules::Type::Shortcuts:
+                    loadedModules.push_back(loader::load<Modules::Shortcuts>(module, interval, position));
+                    break;
 
                 default: std::cerr << "Unknown module type on module with index " << i << std::endl; continue; break;
             }

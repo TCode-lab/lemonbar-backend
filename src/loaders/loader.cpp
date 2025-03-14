@@ -75,6 +75,11 @@ std::shared_ptr<Modules::Time> loader::load<Modules::Time>(json js, int interval
     std::shared_ptr<Modules::Time> out = std::make_shared<Modules::Time>();
     out->Init(interval, pos);
     
+    std::string err = "";
+    
+    TryFillField(out->shortOut, js, "short_out", err);
+
+    if (err != "") { std::cerr << err << std::endl; }
     return out;
 }
 
@@ -96,6 +101,46 @@ std::shared_ptr<Modules::Script> loader::load<Modules::Script>(json js, int inte
     if (TryFillField(out->onWheelUpPath, js, "on_wheel_up", err))           { out->isAllowWheelUp = true;       }
     if (TryFillField(out->onWheelDownPath, js, "on_wheel_down", err))       { out->isAllowWheelDown = true;     }
 
+    if (err != "") { std::cerr << err << std::endl; }
+    return out;
+}
+
+bool ValidataJSShortcut(json js) {
+    if ( js.count("label") < 1   )  { return false; }
+    if ( js.count("command") < 1 )  { return false; }
+    return true;
+}
+
+template <>
+std::shared_ptr<Modules::Shortcuts> loader::load<Modules::Shortcuts>(json js, int interval, Modules::Position pos) {
+    std::shared_ptr<Modules::Shortcuts> out = std::make_shared<Modules::Shortcuts>();
+    out->Init(interval, pos);
+
+    std::string err = "";
+
+    TryFillField(out->separator, js, "separator", err);
+
+    if(js.count("shortcuts") > 0) {
+        auto shortcutsArray = js["shortcuts"];
+        if (shortcutsArray.size() > 0) {
+            Shortcut* shortcut;
+            for (auto jsShortcut : shortcutsArray) {
+                if (ValidataJSShortcut(jsShortcut)) {
+                    shortcut = new Shortcut();
+                    bool result = true;
+                    result = TryFillField(shortcut->label, jsShortcut, "label", err);
+                    result = TryFillField(shortcut->command, jsShortcut, "command", err);
+                    if (!result) { continue; }
+                    out->shortcuts.push_back(shortcut);
+                }
+            }
+        }
+    }
+
+    if (!out->shortcuts.empty()) {
+        out->isAllowCustomInput = true;
+    }
+    
     if (err != "") { std::cerr << err << std::endl; }
     return out;
 }

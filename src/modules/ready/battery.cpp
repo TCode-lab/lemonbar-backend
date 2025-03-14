@@ -13,13 +13,15 @@ std::map <std::string, int> states_map;
 enum States : uint8_t {
     Charging = 0,
     Discharging = 1,
-    Full = 2
+    Full = 2,
+    NotCharging = 3
 };
 
 void Battery::Start() {
     states_map["Charging"]      =   States::Charging;
     states_map["Discharging"]   =   States::Discharging;
     states_map["Full"]          =   States::Full;
+    states_map["Not charging"]  =   States::NotCharging;
     Update();
 }
 
@@ -81,6 +83,9 @@ void Battery::Update() {
                 break;
             case States::Full:
                 status = iconStatusFull;
+                break;
+            case States::NotCharging:
+                status = "НАПРЯЖЕНИЕ СЛАБОЕ БЛЯТЬ";
                 break;
             default:
                 status = "";

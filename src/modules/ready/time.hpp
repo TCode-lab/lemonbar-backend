@@ -2,9 +2,12 @@
 
 #include "../module_basic.hpp"
 
+class loader;
 
 namespace Modules {
     class Time : public Module {
+        friend loader;
+
         private:
         int         basicInterval   ;
         bool        shortOut = false;

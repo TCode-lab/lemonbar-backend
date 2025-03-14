@@ -6,3 +6,4 @@
 #include "ready/ram.hpp"
 #include "ready/time.hpp"
 #include "ready/script.hpp"
+#include "ready/shortcuts.hpp"

@@ -3,6 +3,8 @@
 #include <cstdint>
 #include <string>
 #include <string_view>
+#include <unordered_map>
+#include <functional>
 
 class ModulesLoader;
 class EventHandler;
@@ -21,7 +23,8 @@ namespace Modules {
         Battery,
         RAM,
         Time,
-        Script
+        Script,
+        Shortcuts
     };
 
     class Module {
@@ -37,6 +40,8 @@ namespace Modules {
         Position position;
         std::string bgColor, fontColor;
 
+        bool isAllowCustomInput = false;
+
         bool isAllowLeftClick   = false;
         bool isAllowMiddleClick = false;
         bool isAllowRightClick  = false;
@@ -44,13 +49,15 @@ namespace Modules {
         bool isAllowWheelDown   = false;
 
         bool IsAllowClick() { return isAllowLeftClick || isAllowRightClick || isAllowMiddleClick || isAllowWheelUp || isAllowWheelDown; }
-        void SetOutput (std::string _output);
+        virtual void SetOutput (std::string _output);
 
         virtual void    OnLeftClick     () {};
         virtual void    OnMiddleClick   () {};
         virtual void    OnRightClick    () {};
         virtual void    OnWheelUp       () {};
         virtual void    OnWheelDown     () {};
+        
+        virtual std::unordered_map<uint32_t, std::function<void()>> GetCustomInputRules() { return std::unordered_map<uint32_t, std::function<void()>>(); };
     public:
         bool isNeedUpdNow = false;
 
@@ -86,6 +93,7 @@ namespace Modules {
         constexpr uint32_t batteryHash  =   HashStr("Battery");
         constexpr uint32_t timeHash     =   HashStr("Time");
         constexpr uint32_t scriptHash   =   HashStr("Script");
+        constexpr uint32_t shortcutsHash=   HashStr("Shortcuts");
 
         switch (HashStr(type)) {
             case cpuHash:       return Type::CPU;
@@ -93,6 +101,7 @@ namespace Modules {
             case batteryHash:   return Type::Battery;
             case timeHash:      return Type::Time;
             case scriptHash:    return Type::Script;
+            case shortcutsHash: return Type::Shortcuts;
             default:            return Type::Unknown;
         }
     }

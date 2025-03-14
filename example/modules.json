@@ -1,0 +1,82 @@
+{
+    "modules_list": [
+        {
+            "type": "RAM",
+            "position": "Center",
+            "interval": 10
+        },
+        
+        {
+            "type": "CPU",
+            "position": "Center",
+            "interval": 2,
+
+            "show_temp": true
+        },
+
+        {
+            "type": "Battery",
+            "position": "Center",
+            "interval": 20
+        },
+
+        {
+            "type": "Shortcuts",
+            "position": "Right",
+            "interval": 9999,
+
+            "separator": " ",
+            "shortcuts": [
+                {
+                    "label": "",
+                    "command": "pavucontrol &"
+                },
+
+                {
+                    "label": "",
+                    "command": "nm-connection-editor &"
+                },
+
+                {
+                    "label": "",
+                    "command": "blueman-manager &"
+                }
+            ]
+        },
+
+        {
+            "type": "Time",
+            "position": "Right",
+            "interval": 20
+        },
+
+        {
+            "type": "Shortcuts",
+            "position": "Left",
+            "interval": 9999,
+
+            "separator": " ",
+            "shortcuts": [
+                {
+                    "label": "",
+                    "command": "thunar &"
+                },
+
+                {
+                    "label": "",
+                    "command": "steam &"
+                },
+
+                {
+                    "label": "",
+                    "command": "telegram-desktop &"
+                },
+
+                {
+                    "label": "",
+                    "command": "chromium &"
+                }
+            ]
+        }
+    ]
+}

@@ -28,3 +28,6 @@ std::shared_ptr<Modules::Time> loader::load<Modules::Time>(json js, int interval
 
 template <>
 std::shared_ptr<Modules::Script> loader::load<Modules::Script>(json js, int interval, Modules::Position pos);
+
+template <>
+std::shared_ptr<Modules::Shortcuts> loader::load<Modules::Shortcuts>(json js, int interval, Modules::Position pos);
